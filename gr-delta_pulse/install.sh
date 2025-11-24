@@ -1,0 +1,34 @@
+#!/bin/bash
+# Installation script for gr-delta_pulse
+
+set -e
+
+echo "Building and installing gr-delta_pulse..."
+
+# Create build directory
+mkdir -p build
+cd build
+
+# Configure
+cmake ..
+
+# Build
+make -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
+
+# Install (may require sudo)
+echo "Installing (may require sudo password)..."
+sudo make install
+
+# Update library cache (Linux only - macOS doesn't need this)
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    sudo ldconfig
+fi
+
+echo ""
+echo "Installation complete!"
+echo ""
+echo "To verify installation, run:"
+echo "  python3 -c 'from delta_pulse import delta_pulse_source; print(\"OK\")'"
+echo ""
+echo "The block should now appear in GNU Radio Companion under [delta_pulse]"
+

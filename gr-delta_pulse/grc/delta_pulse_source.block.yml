@@ -1,0 +1,54 @@
+id: delta_pulse_delta_pulse_source
+label: Delta Pulse Source
+category: '[delta_pulse]'
+
+parameters:
+- id: pulse_length
+  label: Pulse Length (samples)
+  dtype: int
+  default: '1024'
+  hide: none
+
+- id: amplitude
+  label: Amplitude
+  dtype: float
+  default: '0.8'
+  hide: none
+
+- id: window
+  label: Apply Hann Window
+  dtype: bool
+  default: 'True'
+  hide: none
+
+- id: center
+  label: Center Pulse
+  dtype: bool
+  default: 'True'
+  hide: none
+
+- id: repeat
+  label: Repeat Pulses
+  dtype: bool
+  default: 'True'
+  hide: none
+
+- id: num_pulses
+  label: Number of Pulses (-1 for infinite)
+  dtype: int
+  default: '-1'
+  hide: none
+
+inputs: []
+
+outputs:
+- domain: stream
+  dtype: complex
+  vlen: 1
+
+templates:
+  imports: from delta_pulse import delta_pulse_source
+  make: delta_pulse_source(${pulse_length}, ${amplitude}, ${window}, ${center}, ${repeat}, ${num_pulses})
+
+file_format: 1
+
